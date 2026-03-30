@@ -31,9 +31,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
     total: guests.length,
     confirmed: guests.filter(g => g.status === 'confirmed' || g.status === 'arrived').length,
     arrived: guests.filter(g => g.status === 'arrived').length,
-    notAttending: guests.filter(g => g.status === 'not_attending').length,
-    totalExpected: guests.filter(g => g.status === 'confirmed' || g.status === 'arrived')
-      .reduce((acc, g) => acc + 1 + (g.plusOnes || 0), 0)
+    notAttending: guests.filter(g => g.status === 'not_attending').length
   };
 
   if (loading) {
@@ -51,7 +49,6 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
           icon={<Users className="w-6 h-6 text-wedding-accent" />} 
           label="Total invités" 
           value={stats.total} 
-          subValue={`${stats.totalExpected} personnes au total`}
           delay={0}
         />
         <StatCard 

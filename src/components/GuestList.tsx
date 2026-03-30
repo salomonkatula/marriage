@@ -116,7 +116,6 @@ export default function GuestList() {
         ...guest,
         id: guest.id || generateGuestId(),
         status: guest.status || 'invited',
-        plusOnes: guest.plusOnes || 0,
         lastUpdated: new Date().toISOString()
       };
       await addDoc(collection(db, 'guests'), newGuest);
@@ -179,7 +178,6 @@ export default function GuestList() {
               <tr className="bg-primary-50/30 border-b border-primary-100">
                 <th className="px-6 py-4 text-[10px] font-bold text-black uppercase tracking-widest">Invité</th>
                 <th className="px-6 py-4 text-[10px] font-bold text-black uppercase tracking-widest">Statut</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-black uppercase tracking-widest text-center">Plus</th>
                 <th className="px-6 py-4 text-[10px] font-bold text-black uppercase tracking-widest">ID</th>
                 <th className="px-6 py-4 text-[10px] font-bold text-black uppercase tracking-widest text-right">Actions</th>
               </tr>
@@ -206,9 +204,6 @@ export default function GuestList() {
                        guest.status === 'not_attending' ? 'Absent' :
                        'Invité'}
                     </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600 text-center font-serif italic">
-                    {guest.plusOnes > 0 ? `+${guest.plusOnes}` : '-'}
                   </td>
                   <td className="px-6 py-4 font-mono text-[10px] text-black">
                     {guest.id}
@@ -374,7 +369,6 @@ export default function GuestList() {
                   name: formData.get('name') as string,
                   email: formData.get('email') as string,
                   phone: formData.get('phone') as string,
-                  plusOnes: parseInt(formData.get('plusOnes') as string) || 0,
                   status: (formData.get('status') as GuestStatus) || 'invited',
                 };
                 if (editingGuest) {
@@ -409,30 +403,18 @@ export default function GuestList() {
                     className="w-full px-4 py-2 rounded-xl border border-primary-100 focus:ring-2 focus:ring-wedding-accent outline-none bg-primary-50/30"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-widest mb-1">Accompagnateurs</label>
-                    <input 
-                      name="plusOnes" 
-                      type="number"
-                      min="0"
-                      defaultValue={editingGuest?.plusOnes || 0}
-                      className="w-full px-4 py-2 rounded-xl border border-primary-100 focus:ring-2 focus:ring-wedding-accent outline-none bg-primary-50/30"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-black uppercase tracking-widest mb-1">Statut</label>
-                    <select 
-                      name="status"
-                      defaultValue={editingGuest?.status || 'invited'}
-                      className="w-full px-4 py-2 rounded-xl border border-primary-100 focus:ring-2 focus:ring-wedding-accent outline-none bg-primary-50/30"
-                    >
-                      <option value="invited">Invité</option>
-                      <option value="confirmed">Confirmé</option>
-                      <option value="not_attending">Ne participe pas</option>
-                      <option value="arrived">Arrivé</option>
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-xs font-bold text-black uppercase tracking-widest mb-1">Statut</label>
+                  <select 
+                    name="status"
+                    defaultValue={editingGuest?.status || 'invited'}
+                    className="w-full px-4 py-2 rounded-xl border border-primary-100 focus:ring-2 focus:ring-wedding-accent outline-none bg-primary-50/30"
+                  >
+                    <option value="invited">Invité</option>
+                    <option value="confirmed">Confirmé</option>
+                    <option value="not_attending">Ne participe pas</option>
+                    <option value="arrived">Arrivé</option>
+                  </select>
                 </div>
                 <div className="flex gap-3 pt-4">
                   <button 

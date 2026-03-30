@@ -3,7 +3,7 @@ import { collection, query, where, getDocs, doc, updateDoc, getDoc } from 'fireb
 import { db } from '../firebase';
 import { Guest, GuestStatus, OperationType } from '../types';
 import { handleFirestoreError, cn } from '../lib/utils';
-import { Search, CheckCircle, XCircle, Users, Clock, ArrowRight, QrCode, X } from 'lucide-react';
+import { Search, CheckCircle, XCircle, ArrowRight, QrCode, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
@@ -96,7 +96,7 @@ export default function RSVP() {
     performSearch(guestId);
   };
 
-  const handleRSVP = async (status: 'confirmed' | 'not_attending', plusOnes: number, arrivalTime: string) => {
+  const handleRSVP = async (status: 'confirmed' | 'not_attending') => {
     if (!guest) return;
 
     setLoading(true);
@@ -104,8 +104,6 @@ export default function RSVP() {
       const guestRef = doc(db, 'guests', guest.id);
       await updateDoc(guestRef, {
         status,
-        plusOnes,
-        arrivalTime,
         lastUpdated: new Date().toISOString()
       });
       setSuccess(true);
@@ -228,9 +226,7 @@ Si vous souhaitez offrir un cadeau, nous vous invitons à faire un don financier
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
               const status = formData.get('status') as 'confirmed' | 'not_attending';
-              const plusOnes = parseInt(formData.get('plusOnes') as string) || 0;
-              const arrivalTime = formData.get('arrivalTime') as string;
-              handleRSVP(status, plusOnes, arrivalTime);
+              handleRSVP(status);
             }} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <label className="relative cursor-pointer group">
@@ -247,35 +243,6 @@ Si vous souhaitez offrir un cadeau, nous vous invitons à faire un don financier
                     <span className="text-sm font-semibold text-gray-700">Absent</span>
                   </div>
                 </label>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <Users className="w-4 h-4" />
-                    Nombre d'accompagnateurs
-                  </label>
-                  <input 
-                    type="number"
-                    name="plusOnes"
-                    min="0"
-                    max="5"
-                    defaultValue={guest.plusOnes || 0}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-wedding-accent outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <Clock className="w-4 h-4" />
-                    Heure d'arrivée prévue
-                  </label>
-                  <input 
-                    type="time"
-                    name="arrivalTime"
-                    defaultValue={guest.arrivalTime || "14:00"}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-wedding-accent outline-none"
-                  />
-                </div>
               </div>
 
               <div className="flex gap-3 pt-4">

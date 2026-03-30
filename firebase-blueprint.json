@@ -10,8 +10,6 @@
         "email": { "type": "string", "description": "Email Address" },
         "phone": { "type": "string", "description": "Phone Number" },
         "status": { "type": "string", "enum": ["invited", "confirmed", "not_attending", "arrived"], "description": "Attendance status" },
-        "plusOnes": { "type": "integer", "description": "Number of accompanying persons" },
-        "arrivalTime": { "type": "string", "description": "Expected arrival time" },
         "checkInTime": { "type": "string", "format": "date-time", "description": "Actual arrival timestamp" },
         "lastUpdated": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
       },

@@ -7,8 +7,6 @@ export interface Guest {
   email?: string;
   phone?: string;
   status: GuestStatus;
-  plusOnes: number;
-  arrivalTime?: string;
   checkInTime?: string;
   lastUpdated: string;
 }

@@ -34,7 +34,6 @@ export default function GuestImportExport() {
               email: row.email || row.Email || '',
               phone: row.phone || row.Phone || '',
               status: 'invited',
-              plusOnes: parseInt(row.plusOnes || row.PlusOnes) || 0,
               lastUpdated: new Date().toISOString()
             };
             await addDoc(collection(db, 'guests'), guestData);
@@ -88,7 +87,7 @@ export default function GuestImportExport() {
           </div>
           <h3 className="text-xl font-serif font-bold mb-2">Importer des invités</h3>
           <p className="text-sm text-black mb-6">
-            Téléchargez un fichier CSV avec les colonnes : name, email, phone, plusOnes.
+            Téléchargez un fichier CSV avec les colonnes : name, email, phone.
           </p>
           <label className="block">
             <span className="sr-only">Choisir un fichier CSV</span>
