@@ -27,6 +27,7 @@ export default function App() {
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showBootstrap, setShowBootstrap] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -128,72 +129,112 @@ export default function App() {
                 Aller au portail RSVP
               </button>
               
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-wedding-accent/10"></div></div>
-                <div className="relative flex justify-center text-sm"><span className="px-3 bg-white/0 text-black uppercase tracking-widest text-[10px] font-bold">Accès Admin</span></div>
-              </div>
-
-              <form onSubmit={handleEmailLogin} className="space-y-3">
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-wedding-accent/50" />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white/50 border border-wedding-accent/20 rounded-xl focus:ring-2 focus:ring-wedding-accent/20 focus:border-wedding-accent outline-none transition-all"
-                    required
-                  />
-                </div>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-wedding-accent/50" />
-                  <input
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white/50 border border-wedding-accent/20 rounded-xl focus:ring-2 focus:ring-wedding-accent/20 focus:border-wedding-accent outline-none transition-all"
-                    required
-                  />
-                </div>
-                {loginError && (
-                  <div className="space-y-2">
-                    <p className="text-red-500 text-xs font-medium px-1">{loginError}</p>
-                    {showBootstrap && (
-                      <button
-                        type="button"
-                        onClick={handleBootstrapAdmin}
-                        className="w-full py-2 bg-wedding-accent/10 text-wedding-accent text-[10px] font-bold rounded-lg border border-wedding-accent/20 flex items-center justify-center gap-2 hover:bg-wedding-accent/20 transition-all"
-                      >
-                        <Sparkles className="w-3 h-3" />
-                        INITIALISER LE COMPTE ADMIN
-                      </button>
-                    )}
-                  </div>
-                )}
+              <div className="pt-4 text-center">
                 <button 
-                  type="submit"
-                  disabled={isLoggingIn}
-                  className="w-full py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  onClick={() => setIsAdminModalOpen(true)}
+                  className="text-[10px] text-gray-500 hover:text-wedding-accent uppercase tracking-widest font-bold transition-colors"
                 >
-                  {isLoggingIn ? 'Connexion...' : 'Se connecter'}
+                  Accès Admin
                 </button>
-              </form>
-
-              <div className="relative py-2">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-wedding-accent/5"></div></div>
-                <div className="relative flex justify-center text-[10px]"><span className="px-2 bg-white/0 text-gray-400">OU</span></div>
               </div>
-
-              <button 
-                onClick={handleGoogleLogin}
-                className="w-full py-3 bg-white text-gray-700 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
-              >
-                <LogIn className="w-4 h-4 text-wedding-accent" />
-                Google Login
-              </button>
             </div>
           </div>
+
+          {/* Admin Login Modal */}
+          <AnimatePresence>
+            {isAdminModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsAdminModalOpen(false)}
+                  className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                />
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8 overflow-hidden"
+                >
+                  <button 
+                    onClick={() => setIsAdminModalOpen(false)}
+                    className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+
+                  <div className="text-center mb-6">
+                    <div className="inline-block p-3 bg-wedding-accent/10 rounded-full mb-3">
+                      <Lock className="w-6 h-6 text-wedding-accent" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 serif">Connexion Admin</h3>
+                    <p className="text-xs text-gray-500 mt-1">Veuillez entrer vos identifiants</p>
+                  </div>
+
+                  <form onSubmit={handleEmailLogin} className="space-y-4">
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-wedding-accent/50" />
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-wedding-accent/20 focus:border-wedding-accent outline-none transition-all"
+                        required
+                      />
+                    </div>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-wedding-accent/50" />
+                      <input
+                        type="password"
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-wedding-accent/20 focus:border-wedding-accent outline-none transition-all"
+                        required
+                      />
+                    </div>
+                    {loginError && (
+                      <div className="space-y-2">
+                        <p className="text-red-500 text-xs font-medium px-1">{loginError}</p>
+                        {showBootstrap && (
+                          <button
+                            type="button"
+                            onClick={handleBootstrapAdmin}
+                            className="w-full py-2 bg-wedding-accent/10 text-wedding-accent text-[10px] font-bold rounded-lg border border-wedding-accent/20 flex items-center justify-center gap-2 hover:bg-wedding-accent/20 transition-all"
+                          >
+                            <Sparkles className="w-3 h-3" />
+                            INITIALISER LE COMPTE ADMIN
+                          </button>
+                        )}
+                      </div>
+                    )}
+                    <button 
+                      type="submit"
+                      disabled={isLoggingIn}
+                      className="w-full py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {isLoggingIn ? 'Connexion...' : 'Se connecter'}
+                    </button>
+                  </form>
+
+                  <div className="relative py-6">
+                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
+                    <div className="relative flex justify-center text-[10px]"><span className="px-2 bg-white text-gray-400">OU</span></div>
+                  </div>
+
+                  <button 
+                    onClick={handleGoogleLogin}
+                    className="w-full py-3 bg-white text-gray-700 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
+                  >
+                    <LogIn className="w-4 h-4 text-wedding-accent" />
+                    Google Login
+                  </button>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
           <p className="text-center text-black text-[10px] mt-8 font-serif italic">
             Copyright @2026, Design by Salomon Katula All Rights Reserved
           </p>
