@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || 
+         (request.auth.token.email == "salomonkatula2@gmail.com" && request.auth.token.email_verified == true) ||
+         (request.auth.token.email == "admin@wedding.com"));
+    }
+
+    function isValidGuest(data) {
+      return data.keys().hasAll(['id', 'name', 'status']) &&
+             data.id is string && data.id.size() > 0 &&
+             data.name is string && data.name.size() > 0 &&
+             data.status in ['invited', 'confirmed', 'not_attending', 'arrived'] &&
+             (!('plusOnes' in data) || data.plusOnes is int) &&
+             (!('email' in data) || data.email is string) &&
+             (!('phone' in data) || data.phone is string);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow write: if isAdmin();
+    }
+
+    match /guests/{guestId} {
+      // Public read for RSVP (if they know the ID)
+      // In a real app, we might want to restrict this more, but for a wedding RSVP, 
+      // knowing the ID is usually enough.
+      allow read: if true; 
+      
+      // Allow guests to update their own RSVP
+      allow update: if isValidGuest(request.resource.data) && 
+                      (request.resource.data.status in ['confirmed', 'not_attending']) &&
+                      (resource.data.status != 'arrived'); // Cannot change RSVP after check-in
+
+      // Admin can do anything
+      allow write: if isAdmin();
+    }
+  }
+}

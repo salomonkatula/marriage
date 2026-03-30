@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "guest": {
+      "title": "Guest",
+      "description": "A wedding guest invited to the event.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique Guest ID" },
+        "name": { "type": "string", "description": "Full Name" },
+        "email": { "type": "string", "description": "Email Address" },
+        "phone": { "type": "string", "description": "Phone Number" },
+        "status": { "type": "string", "enum": ["invited", "confirmed", "not_attending", "arrived"], "description": "Attendance status" },
+        "plusOnes": { "type": "integer", "description": "Number of accompanying persons" },
+        "arrivalTime": { "type": "string", "description": "Expected arrival time" },
+        "checkInTime": { "type": "string", "format": "date-time", "description": "Actual arrival timestamp" },
+        "lastUpdated": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["id", "name", "status"]
+    },
+    "user": {
+      "title": "User",
+      "description": "An administrative user.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "Email address" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" }
+      },
+      "required": ["uid", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/guests/{guestId}": {
+      "schema": "guest",
+      "description": "Collection of wedding guests"
+    },
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Collection of administrative users"
+    }
+  }
+}

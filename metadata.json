@@ -1,0 +1,5 @@
+{
+  "name": "Système de présence des invités au mariage",
+  "description": "Un système complet de gestion des invités, de RSVP et d'enregistrement par code QR pour les mariages.",
+  "requestFramePermissions": ["camera"]
+}
