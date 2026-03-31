@@ -107,14 +107,24 @@ export default function App() {
       <div className="min-h-screen bg-wedding-image flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <div className="inline-block p-4 bg-primary-50 rounded-full mb-4 relative">
+            <div className="inline-block p-4 bg-primary-50 rounded-full mb-4 relative mt-[200px]">
               <Heart className="w-10 h-10 text-wedding-accent fill-wedding-accent animate-pulse" />
               <div className="absolute -top-1 -right-1">
                 <Heart className="w-4 h-4 text-wedding-accent fill-wedding-accent opacity-50" />
               </div>
             </div>
-            <h1 className="text-5xl font-bold text-gray-900 serif tracking-tight">Notre Mariage</h1>
             <p className="text-gray-500 mt-2 font-serif italic text-xl">Système de présence des invités</p>
+            <div className="mt-8 px-4 text-gray-700 font-serif leading-relaxed text-sm space-y-4">
+              <p>Bienvenue à notre mariage.</p>
+              <p>
+                C'est avec une profonde gratitude que nous vous invitons à vous joindre à nous pour marquer le début de notre nouvelle vie à deux. Nous remercions Dieu de nous avoir réunis et de nous avoir comblés d'une famille et d'amis qui ne cessent de nous soutenir et de nous encourager.
+              </p>
+              <p>Nous avons hâte de célébrer cette union joyeuse avec vous.</p>
+              <p className="italic">
+                Avec amour et gratitude,<br />
+                <span className="font-bold text-wedding-accent not-italic">Daniel et Sunique</span>
+              </p>
+            </div>
           </div>
           
           <div className="bg-white/40 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-wedding-accent/20 relative overflow-hidden">
