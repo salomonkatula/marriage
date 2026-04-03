@@ -13,7 +13,7 @@ export function generateGuestId() {
 
 export function getWhatsAppShareLink(phone: string, name: string, guestId: string) {
   const appUrl = window.location.origin;
-  const message = `Bonjour ${name} ! 🥂 Nous sommes ravis de vous inviter à notre mariage. Veuillez utiliser votre ID unique : *${guestId}* pour confirmer votre présence ici : ${appUrl}?view=rsvp&id=${guestId}\n\nPour télécharger votre invitation, cliquez sur le lien : https://drive.google.com/file/d/1FS9v8CVRIOAKh4S1jB-4PaC4k_-6sXFT/view?usp=sharing`;
+  const message = `Bonjour ${name} ! 🥂 Nous sommes ravis de vous inviter à notre mariage. Veuillez utiliser votre ID unique : *${guestId}* pour confirmer votre présence ici : ${appUrl}?view=rsvp&id=${guestId}\n\nPour télécharger votre invitation, cliquez sur le lien : https://drive.google.com/file/d/1YeB2-6FfrWRrME0BhZRN6RQ9KUiyZ-mZ/view`;
   const encodedMessage = encodeURIComponent(message);
   const cleanPhone = phone.replace(/\D/g, '');
   return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;

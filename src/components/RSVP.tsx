@@ -3,7 +3,7 @@ import { collection, query, where, getDocs, doc, updateDoc, getDoc } from 'fireb
 import { db } from '../firebase';
 import { Guest, GuestStatus, OperationType } from '../types';
 import { handleFirestoreError, cn } from '../lib/utils';
-import { Search, CheckCircle, XCircle, ArrowRight, QrCode, X } from 'lucide-react';
+import { Search, CheckCircle, XCircle, ArrowRight, QrCode, X, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
@@ -220,6 +220,17 @@ export default function RSVP() {
               <p className="text-gray-500">Nous sommes honorés de célébrer notre union dans un cadre familial, dans le respect des traditions et dans l'amour.
 Si vous souhaitez offrir un cadeau, nous vous invitons à faire un don financier qui sera transformé en œuvre sociale et reversé en totalité à une organisation pour personnes nécessiteuses basée au quartier Njinka (dans la ville de Foumban). Ceci nous tient particulièrement à cœur car il sera signe de gratitude et pour rendre à la communauté ce qu'elle nous a donné. Tout don peut être fait a ce contact Orange Money  699104589 Regine Charre Lindou. Merci.
 </p>
+              <div className="mt-4">
+                <a 
+                  href="https://www.paypal.com/paypalme/KatulaSalomon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-wedding-accent text-white rounded-2xl font-semibold hover:bg-wedding-accent/90 transition-all shadow-lg shadow-wedding-accent/20"
+                >
+                  <Gift className="w-5 h-5" />
+                  Remise de cadeaux en ligne
+                </a>
+              </div>
             </div>
 
             <form onSubmit={(e) => {

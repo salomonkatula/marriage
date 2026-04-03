@@ -11,7 +11,7 @@ import GuestList from './components/GuestList';
 import RSVP from './components/RSVP';
 import Scanner from './components/Scanner';
 import GuestImportExport from './components/GuestImportExport';
-import { LayoutDashboard, Users, QrCode, Upload, LogIn, LogOut, Heart, Menu, X, Mail, Lock, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Users, QrCode, Upload, LogIn, LogOut, Heart, Menu, X, Mail, Lock, Sparkles, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 
@@ -138,6 +138,16 @@ export default function App() {
               >
                 Aller au portail RSVP
               </button>
+
+              <a 
+                href="https://www.dropbox.com/scl/fo/bpzmk8jz7vef4reh8fkk8/AGyl-Q3UaUBsV_BclEZNT-U?rlkey=gvfkq2zwwa5hdi2prbljv2itx&e=2&st=8lmng4u8&dl=0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 bg-white text-wedding-accent border-2 border-wedding-accent rounded-2xl font-semibold hover:bg-wedding-accent/5 transition-all shadow-lg shadow-wedding-accent/10 flex items-center justify-center gap-2"
+              >
+                <Camera className="w-5 h-5" />
+                Partager photos et vidéos
+              </a>
               
               <div className="pt-4 text-center">
                 <button 
